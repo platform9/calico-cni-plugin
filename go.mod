@@ -36,7 +36,10 @@ require (
 	k8s.io/utils v0.0.0-20201110183641-67b214c5f920
 )
 
-require github.com/juju/testing v0.0.0-20200608005635-e4eedbc6f7aa // indirect
+require (
+	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
+	github.com/juju/testing v0.0.0-20200608005635-e4eedbc6f7aa // indirect
+)
 
 replace (
 	github.com/Microsoft/hcsshim => github.com/projectcalico/hcsshim v0.8.9-calico
@@ -67,5 +70,7 @@ replace (
 	k8s.io/sample-apiserver => k8s.io/sample-apiserver v0.18.12
 
 )
+
+replace github.com/dgrijalva/jwt-go => github.com/golang-jwt/jwt/v4 v4.4.2
 
 replace github.com/projectcalico/libcalico-go => ../libcalico-go
