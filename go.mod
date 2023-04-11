@@ -5,7 +5,7 @@ go 1.16
 require (
 	github.com/Microsoft/hcsshim v0.8.6
 	github.com/buger/jsonparser v1.0.0
-	github.com/containernetworking/cni v0.8.0
+	github.com/containernetworking/cni v0.8.1
 	github.com/containernetworking/plugins v0.8.5
 	github.com/gofrs/flock v0.8.0
 	github.com/gogo/protobuf v1.3.2
