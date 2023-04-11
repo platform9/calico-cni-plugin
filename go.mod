@@ -26,8 +26,8 @@ require (
 	github.com/sirupsen/logrus v1.6.0
 	github.com/vishvananda/netlink v0.0.0-20181108222139-023a6dafdcdf
 	go.etcd.io/etcd v0.5.0-alpha.5.0.20201125193152-8a03d2e9614b
-	golang.org/x/net v0.0.0-20211112202133-69e39bad7dc2
-	golang.org/x/sys v0.0.0-20210615035016-665e8c7367d1
+	golang.org/x/net v0.0.0-20220722155237-a158d28d115b
+	golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f
 	google.golang.org/grpc v1.27.1
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
 	k8s.io/api v0.18.12
@@ -78,5 +78,7 @@ replace github.com/gogo/protobuf => github.com/gogo/protobuf v1.3.2
 replace github.com/prometheus/client_golang => github.com/prometheus/client_golang v1.11.1
 
 replace golang.org/x/crypto => golang.org/x/crypto v0.0.0-20220314234659-1baeb1ce4c0b
+
+replace golang.org/x/text => golang.org/x/text v0.3.8
 
 replace github.com/projectcalico/libcalico-go => ../libcalico-go
