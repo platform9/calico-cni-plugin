@@ -30,9 +30,9 @@ require (
 	golang.org/x/sys v0.5.0
 	google.golang.org/grpc v1.27.1
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
-	k8s.io/api v0.18.12
-	k8s.io/apimachinery v0.18.12
-	k8s.io/client-go v0.18.12
+	k8s.io/api v0.19.6
+	k8s.io/apimachinery v0.19.6
+	k8s.io/client-go v0.19.6
 	k8s.io/utils v0.0.0-20201110183641-67b214c5f920
 )
 
@@ -79,8 +79,8 @@ replace github.com/prometheus/client_golang => github.com/prometheus/client_gola
 
 replace golang.org/x/crypto => golang.org/x/crypto v0.0.0-20220314234659-1baeb1ce4c0b
 
-replace golang.org/x/text => golang.org/x/text v0.3.8
+replace github.com/satori/go.uuid => github.com/satori/go.uuid v1.2.1-0.20181028125025-b2ce2384e17b
 
-replace github.com/satori/go.uuid => github.com/google/uuid v1.3.0
+replace golang.org/x/text => golang.org/x/text v0.3.8
 
 replace github.com/projectcalico/libcalico-go => ../libcalico-go
