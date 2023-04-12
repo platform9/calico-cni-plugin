@@ -30,20 +30,21 @@ require (
 	golang.org/x/sys v0.5.0
 	google.golang.org/grpc v1.27.1
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0
-	k8s.io/api v0.18.12
-	k8s.io/apimachinery v0.18.12
-	k8s.io/client-go v0.18.12
+	k8s.io/api v0.19.6
+	k8s.io/apimachinery v0.19.6
+	k8s.io/client-go v0.19.6
 	k8s.io/utils v0.0.0-20201110183641-67b214c5f920
 )
 
 require (
 	github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc // indirect
+	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/juju/testing v0.0.0-20200608005635-e4eedbc6f7aa // indirect
 )
 
 replace (
 	github.com/Microsoft/hcsshim => github.com/projectcalico/hcsshim v0.8.9-calico
-	github.com/kelseyhightower/confd => ../confd
+	//github.com/kelseyhightower/confd => ../confd
 
 	github.com/sirupsen/logrus => github.com/projectcalico/logrus v1.0.4-calico
 
@@ -81,6 +82,4 @@ replace golang.org/x/crypto => golang.org/x/crypto v0.0.0-20220314234659-1baeb1c
 
 replace golang.org/x/text => golang.org/x/text v0.3.8
 
-replace github.com/satori/go.uuid => github.com/google/uuid v1.3.0
-
-replace github.com/projectcalico/libcalico-go => ../libcalico-go
+//replace github.com/projectcalico/libcalico-go => ../libcalico-go
