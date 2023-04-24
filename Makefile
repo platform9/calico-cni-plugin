@@ -1,5 +1,5 @@
 PACKAGE_NAME=github.com/projectcalico/cni-plugin
-GO_BUILD_VER=v0.49
+GO_BUILD_VER=v0.72.1
 
 # This needs to be evaluated before the common makefile is included.
 # This var contains some default values that the common makefile may append to.
@@ -25,6 +25,7 @@ Makefile.common.$(MAKE_BRANCH):
 	rm -f Makefile.common.*
 	curl --fail $(MAKE_REPO)/Makefile.common -o "$@"
 
+DOCKER_GO_BUILD := $(DOCKER_RUN) -v $(CURDIR)/../libcalico-go:/go/src/github.com/projectcalico/libcalico-go:rw -v $(CURDIR)/../confd:/go/src/github.com/projectcalico/confd:rw $(CALICO_BUILD)
 # Build mounts for running in "local build" mode. This allows an easy build using local development code,
 # assuming that there is a local checkout of libcalico in the same directory as this repo.
 ifdef LOCAL_BUILD
@@ -33,7 +34,7 @@ LOCAL_BUILD_DEP:=set-up-local-build
 
 EXTRA_DOCKER_ARGS+=-v $(CURDIR)/../libcalico-go:/go/src/github.com/projectcalico/libcalico-go:rw
 $(LOCAL_BUILD_DEP):
-	$(DOCKER_RUN) $(CALICO_BUILD) go mod edit -replace=github.com/projectcalico/libcalico-go=../libcalico-go
+	$(DOCKER_RUN) -v $(CURDIR)/../libcalico-go:/go/src/github.com/projectcalico/libcalico-go:rw -v $(CURDIR)/../confd:/go/src/github.com/projectcalico/confd:rw $(CALICO_BUILD) go mod edit -replace=github.com/projectcalico/libcalico-go=../libcalico-go
 endif
 
 include Makefile.common
@@ -99,6 +100,8 @@ $(BIN)/install binary: $(SRC_FILES)
 	-e ARCH=$(ARCH) \
 	-e GOARCH=$(ARCH) \
 	-e LOCAL_USER_ID=$(LOCAL_USER_ID) \
+	-v $(CURDIR)/../libcalico-go:/go/src/github.com/projectcalico/libcalico-go:rw \
+	-v $(CURDIR)/../confd:/go/src/github.com/projectcalico/confd:rw \
 	-v $(CURDIR):/go/src/$(PACKAGE_NAME):rw \
 	-v $(CURDIR)/$(BIN):/go/src/$(PACKAGE_NAME)/$(BIN):rw \
 	$(LOCAL_BUILD_MOUNTS) \
@@ -110,6 +113,8 @@ $(BIN)/install binary: $(SRC_FILES)
 ## Build the Calico network plugin and ipam plugins for Windows
 $(BIN_WIN)/calico.exe $(BIN_WIN)/calico-ipam.exe: $(LOCAL_BUILD_DEP) $(SRC_FILES)
 	$(DOCKER_RUN) \
+	-v $(CURDIR)/../libcalico-go:/go/src/github.com/projectcalico/libcalico-go:rw \
+	-v $(CURDIR)/../confd:/go/src/github.com/projectcalico/confd:rw \
 	-e GOOS=windows \
 	    $(CALICO_BUILD) sh -c '$(GIT_CONFIG_SSH) \
 		go build -v -o $(BIN_WIN)/calico.exe -ldflags "-X main.VERSION=$(GIT_VERSION) -s -w" $(PACKAGE_NAME)/cmd/calico && \
@@ -236,6 +241,8 @@ ut-datastore: $(LOCAL_BUILD_DEP)
 	-e K8S_API_ENDPOINT=http://127.0.0.1:8080 \
 	-e GO111MODULE=on \
 	-v $(CURDIR):/go/src/$(PACKAGE_NAME):rw \
+	-v $(CURDIR)../:/go/src/$(PACKAGE_NAME):rw \
+
 	$(CALICO_BUILD) sh -c '$(GIT_CONFIG_SSH) \
 			cd  /go/src/$(PACKAGE_NAME) && \
 			ginkgo -cover -r -skipPackage pkg/install $(GINKGO_ARGS)'
@@ -323,6 +330,8 @@ pkg/install/install.test: pkg/install/*.go
 	-e LOCAL_USER_ID=$(LOCAL_USER_ID) \
 	-v $(CURDIR):/go/src/$(PACKAGE_NAME):rw \
 	-v $(CURDIR)/.go-pkg-cache:/go/pkg/:rw \
+	-v $(CURDIR)/../libcalico-go:/go/src/github.com/projectcalico/libcalico-go:rw \
+	-v $(CURDIR)/../confd:/go/src/github.com/projectcalico/confd:rw \
 		$(CALICO_BUILD) sh -c '$(GIT_CONFIG_SSH) \
 			cd /go/src/$(PACKAGE_NAME) && \
 			go test ./pkg/install -c --tags install_test -o ./pkg/install/install.test'
@@ -351,7 +360,7 @@ endif
 
 ## Build fv binary for Windows
 $(BIN_WIN)/win-fv.exe: $(LOCAL_BUILD_DEP) $(WINFV_SRCFILES)
-	$(DOCKER_RUN) -e GOOS=windows $(CALICO_BUILD) sh -c '$(GIT_CONFIG_SSH) go test ./win_tests -c -o $(BIN_WIN)/win-fv.exe'
+	$(DOCKER_RUN) -v $(CURDIR)/../libcalico-go:/go/src/github.com/projectcalico/libcalico-go:rw -v $(CURDIR)/../confd:/go/src/github.com/projectcalico/confd:rw -e GOOS=windows $(CALICO_BUILD) sh -c '$(GIT_CONFIG_SSH) go test ./win_tests -c -o $(BIN_WIN)/win-fv.exe'
 
 ###############################################################################
 # Release
